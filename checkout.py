@@ -15,6 +15,7 @@ def start(order):
     print(f"Total: ${total}")
 
     payment(total)
+    save(order, total)
 
     input("(Press ENTER to continue)")
 
@@ -26,12 +27,17 @@ def payment(total):
             cash = int(input("Enter cash recieved: "))
             change = round(cash - total, 2)
             print(f"Return ${change} to the customer.")
-            input("(Press ENTER to continue)")
             break
         elif payment_type.lower() == "credit":
             print(f"The total is ${total}.")
             print("Please swipe the credit card")
-            input("(Press ENTER to continue)")
             break
         else:
             print("Please enter CASH or CREDIT only")
+
+def save(order, total):
+    with open("pizza.dat", "a") as orders:
+        for pizza in order:
+            orders.write(f"{pizza.quantity}, {pizza.type}, {pizza.size}, {pizza.price} ")
+        orders.write(f"{total}")
+        orders.write("\n")
